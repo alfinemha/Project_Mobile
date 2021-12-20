@@ -55,3 +55,7 @@
 ## Halaman FAQ
 
 ![Screenshot](img/faq.png)
+
+# Link Figma
+
+Mockup menggunakan figma dan link mockup dapat di akses pada [link](https://www.figma.com/file/ZwTNTMAImd7DMR8FVD8xNJ/Untitled?node-id=0%3A1) berikut

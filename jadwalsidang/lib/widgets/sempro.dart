@@ -28,7 +28,6 @@ class _SemproWidgetState extends State<SemproWidget> {
     try {
       var response = await http.get(url,
           headers: {'Authorization': 'Bearer ' + GlobalConstant.getToken()});
-      print(response.body);
       if (response.statusCode == 200) {
         setState(() {
           _loading = false;

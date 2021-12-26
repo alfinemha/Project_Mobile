@@ -41,6 +41,7 @@ dependencies:
   file_picker: ^4.3.0
   image_picker: ^0.8.4+4
   dotted_border: ^2.0.0+1
+  google_maps_flutter: ^2.1.1
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,7 @@ import 'package:jadwalsidang/constant/global_constant.dart';
 import 'package:jadwalsidang/pages/drawer.dart';
 import 'package:jadwalsidang/pages/informasi_page.dart';
 import 'package:jadwalsidang/pages/login_page.dart';
+import 'package:jadwalsidang/pages/lokasi_page.dart';
 import 'package:jadwalsidang/pages/profile_page.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
@@ -82,6 +83,21 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => InformasiPage()));
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: [
+                    Icon(Icons.location_pin),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text('Lokasi'),
+                    )
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LokasiPage()));
                 },
               ),
               ListTile(

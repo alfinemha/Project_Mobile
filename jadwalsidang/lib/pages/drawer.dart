@@ -16,6 +16,8 @@ import 'package:jadwalsidang/state/mahasiswa_state.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
 import 'package:http/http.dart' as http;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -65,20 +67,69 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()));
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: MahasiswaState.getMahasiswa()['photo'] !=
-                            null
-                        ? NetworkImage(
-                            MahasiswaState.getMahasiswa()['photo'].toString())
-                        : NetworkImage(
-                            "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1214428300?k=20&m=1214428300&s=170667a&w=0&h=NPyJe8rXdOnLZDSSCdLvLWOtIeC9HjbWFIx8wg5nIks="),
-                    radius: 30,
-                  ),
-                ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
+                    },
+                    child: MahasiswaState.getMahasiswa()['photo'] != null
+                        ? CachedNetworkImage(
+                            width: 55,
+                            imageUrl: MahasiswaState.getMahasiswa()['photo']
+                                .toString(),
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Color(0xFFEBEBF4),
+                              highlightColor: Color(0xFFEBEBF4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: primaryBlue,
+                                ),
+                                width: 55,
+                                height: 55,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          )
+                        : CachedNetworkImage(
+                            width: 55,
+                            imageUrl:
+                                "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1214428300?k=20&m=1214428300&s=170667a&w=0&h=NPyJe8rXdOnLZDSSCdLvLWOtIeC9HjbWFIx8wg5nIks=",
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Color(0xFFEBEBF4),
+                              highlightColor: Color(0xFFEBEBF4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: primaryBlue,
+                                ),
+                                width: 55,
+                                height: 55,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          )),
                 SizedBox(
                   height: 16,
                 ),

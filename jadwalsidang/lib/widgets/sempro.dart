@@ -113,18 +113,20 @@ class _SemproWidgetState extends State<SemproWidget> {
                                         SizedBox(
                                           width: 8,
                                         ),
-                                        Text(_semproData[index]['status']
-                                                    .toString() !=
-                                                'Belum Disetujui'
-                                            ? _semproData[index]['status']
-                                            : 'Tanggal belum ada')
+                                        Text(_semproData[index]['waktu'] != null
+                                            ? _semproData[index]['waktu']
+                                            : 'Waktu belum ada')
                                       ],
                                     ),
                                     Container(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 6, horizontal: 8),
                                         decoration: BoxDecoration(
-                                            color: Colors.red,
+                                            color: _semproData[index]
+                                                        ['status'] ==
+                                                    'Sudah Diverifikasi'
+                                                ? Colors.green
+                                                : Colors.red,
                                             borderRadius:
                                                 BorderRadius.circular(50)),
                                         child: Text(

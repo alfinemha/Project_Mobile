@@ -4,19 +4,20 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jadwalsidang/constant/global_constant.dart';
+import 'package:jadwalsidang/pages/admin_detail_skripsi_page.dart';
 import 'package:jadwalsidang/pages/detail_skripsi_page.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
 import 'package:http/http.dart' as http;
 
-class SkripsiWidget extends StatefulWidget {
-  const SkripsiWidget({Key? key}) : super(key: key);
+class AdminSkripsiWidget extends StatefulWidget {
+  const AdminSkripsiWidget({Key? key}) : super(key: key);
 
   @override
-  _SkripsiWidgetState createState() => _SkripsiWidgetState();
+  _AdminSkripsiWidgetState createState() => _AdminSkripsiWidgetState();
 }
 
-class _SkripsiWidgetState extends State<SkripsiWidget> {
+class _AdminSkripsiWidgetState extends State<AdminSkripsiWidget> {
   List _skrispiData = [];
   bool _loading = false;
 
@@ -24,8 +25,7 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
     setState(() {
       _loading = true;
     });
-    var url =
-        Uri.parse(GlobalConstant.baseUrl + '/mahasiswa/pengajuan/skripsi');
+    var url = Uri.parse(GlobalConstant.baseUrl + '/admin/pengajuan/skripsi');
     try {
       var response = await http.get(url,
           headers: {'Authorization': 'Bearer ' + GlobalConstant.getToken()});
@@ -86,7 +86,7 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetailSkripsiPage(
+                                  builder: (context) => AdminDetailSkripsiPage(
                                         id: _skrispiData[index]['id']
                                             .toString(),
                                       )));
@@ -115,11 +115,9 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
                                         SizedBox(
                                           width: 8,
                                         ),
-                                        Text(_skrispiData[index]['status']
-                                                    .toString() !=
-                                                'Belum Disetujui'
-                                            ? _skrispiData[index]['status']
-                                            : 'Tanggal belum ada')
+                                        Text(_skrispiData[index]['mahasiswa']
+                                                ['kelas']
+                                            .toString())
                                       ],
                                     ),
                                     Container(

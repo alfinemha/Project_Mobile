@@ -135,7 +135,11 @@ class _SkripsiPageState extends State<SkripsiPage> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 6, horizontal: 8),
                                             decoration: BoxDecoration(
-                                                color: Colors.red,
+                                                color: _skripsiData[index]
+                                                            ['status'] ==
+                                                        'Sudah Diverifikasi'
+                                                    ? Colors.green
+                                                    : Colors.red,
                                                 borderRadius:
                                                     BorderRadius.circular(50)),
                                             child: Text(

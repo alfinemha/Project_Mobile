@@ -4,43 +4,43 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jadwalsidang/constant/global_constant.dart';
-import 'package:jadwalsidang/pages/detail_skripsi_page.dart';
+import 'package:jadwalsidang/pages/admin_detail_sempro_page.dart';
+import 'package:jadwalsidang/pages/detail_sempro_page.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
 import 'package:http/http.dart' as http;
 
-class SkripsiWidget extends StatefulWidget {
-  const SkripsiWidget({Key? key}) : super(key: key);
+class AdminSemproWidget extends StatefulWidget {
+  const AdminSemproWidget({Key? key}) : super(key: key);
 
   @override
-  _SkripsiWidgetState createState() => _SkripsiWidgetState();
+  _AdminSemproWidgetState createState() => _AdminSemproWidgetState();
 }
 
-class _SkripsiWidgetState extends State<SkripsiWidget> {
-  List _skrispiData = [];
+class _AdminSemproWidgetState extends State<AdminSemproWidget> {
+  List _semproData = [];
   bool _loading = false;
 
-  Future _getSkripsi() async {
+  Future _getSempro() async {
     setState(() {
       _loading = true;
     });
-    var url =
-        Uri.parse(GlobalConstant.baseUrl + '/mahasiswa/pengajuan/skripsi');
+    var url = Uri.parse(GlobalConstant.baseUrl + '/admin/pengajuan/sempro');
     try {
       var response = await http.get(url,
           headers: {'Authorization': 'Bearer ' + GlobalConstant.getToken()});
       if (response.statusCode == 200) {
         setState(() {
           _loading = false;
-          _skrispiData = json.decode(response.body)['data'];
+          _semproData = json.decode(response.body)['data'];
         });
       } else {
         setState(() {
-          _skrispiData = [];
+          _semproData = [];
           _loading = false;
         });
         BottomSheetFeedback.error(
-            context, 'Error', 'Gagal mendapatkan data skripsi!');
+            context, 'Error', 'Gagal mendapatkan data sempro!');
       }
     } on SocketException {
       BottomSheetFeedback.error(context, 'Error', 'No connection internet');
@@ -63,7 +63,7 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
   @override
   void initState() {
     super.initState();
-    _getSkripsi();
+    _getSempro();
   }
 
   @override
@@ -74,21 +74,20 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
                 ? CupertinoActivityIndicator()
                 : CircularProgressIndicator(),
           )
-        : _skrispiData.isEmpty
+        : _semproData.isEmpty
             ? Center(child: Text('Data masih kosong'))
             : Container(
                 padding: EdgeInsets.all(16),
                 child: ListView.builder(
-                    itemCount: _skrispiData.length,
+                    itemCount: _semproData.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetailSkripsiPage(
-                                        id: _skrispiData[index]['id']
-                                            .toString(),
+                                  builder: (context) => AdminDetailSemproPage(
+                                        id: _semproData[index]['id'].toString(),
                                       )));
                         },
                         child: Padding(
@@ -115,26 +114,24 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
                                         SizedBox(
                                           width: 8,
                                         ),
-                                        Text(_skrispiData[index]['status']
-                                                    .toString() !=
-                                                'Belum Disetujui'
-                                            ? _skrispiData[index]['status']
-                                            : 'Tanggal belum ada')
+                                        Text(_semproData[index]['mahasiswa']
+                                                ['kelas']
+                                            .toString())
                                       ],
                                     ),
                                     Container(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 6, horizontal: 8),
                                         decoration: BoxDecoration(
-                                            color: _skrispiData[index]
+                                            color: _semproData[index]
                                                         ['status'] ==
-                                                    'Sudah Disetujui'
+                                                    'Sudah Diverifikasi'
                                                 ? Colors.green
                                                 : Colors.red,
                                             borderRadius:
                                                 BorderRadius.circular(50)),
                                         child: Text(
-                                          _skrispiData[index]['status'],
+                                          _semproData[index]['status'],
                                           style: TextStyle(
                                               fontSize: 10,
                                               color: Colors.white),
@@ -154,7 +151,7 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
                                             borderRadius:
                                                 BorderRadius.circular(50)),
                                         child: Text(
-                                          _skrispiData[index]['mahasiswa']
+                                          _semproData[index]['mahasiswa']
                                               ['nim'],
                                           style: TextStyle(
                                               fontSize: 10,
@@ -164,7 +161,7 @@ class _SkripsiWidgetState extends State<SkripsiWidget> {
                                       width: 10,
                                     ),
                                     Text(
-                                      _skrispiData[index]['mahasiswa']['nama'],
+                                      _semproData[index]['mahasiswa']['nama'],
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     )

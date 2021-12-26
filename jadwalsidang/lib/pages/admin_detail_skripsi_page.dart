@@ -9,39 +9,39 @@ import 'package:http/http.dart' as http;
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
 import 'package:jadwalsidang/widgets/text_widget.dart';
 
-class DetailSemproPage extends StatefulWidget {
+class AdminDetailSkripsiPage extends StatefulWidget {
   final String id;
-  const DetailSemproPage({Key? key, required this.id}) : super(key: key);
+  const AdminDetailSkripsiPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  _DetailSemproPageState createState() => _DetailSemproPageState();
+  _AdminDetailSkripsiPageState createState() => _AdminDetailSkripsiPageState();
 }
 
-class _DetailSemproPageState extends State<DetailSemproPage> {
-  Map? _semproData;
+class _AdminDetailSkripsiPageState extends State<AdminDetailSkripsiPage> {
+  Map? _skripsiData;
   bool _loading = false;
 
-  Future _getDetailSempro() async {
+  Future _getDetailSkripsi() async {
     setState(() {
       _loading = true;
     });
     var url = Uri.parse(
-        GlobalConstant.baseUrl + '/mahasiswa/pengajuan/sempro/' + widget.id);
+        GlobalConstant.baseUrl + '/admin/pengajuan/skripsi/' + widget.id);
     try {
       var response = await http.get(url,
           headers: {'Authorization': 'Bearer ' + GlobalConstant.getToken()});
       if (response.statusCode == 200) {
         setState(() {
           _loading = false;
-          _semproData = json.decode(response.body)['data'];
+          _skripsiData = json.decode(response.body)['data'];
         });
       } else {
         setState(() {
-          _semproData = {};
+          _skripsiData = {};
           _loading = false;
         });
         BottomSheetFeedback.error(
-            context, 'Error', 'Gagal mendapatkan data sempro!');
+            context, 'Error', 'Gagal mendapatkan data skripsi!');
       }
     } on SocketException {
       BottomSheetFeedback.error(context, 'Error', 'No connection internet');
@@ -64,14 +64,14 @@ class _DetailSemproPageState extends State<DetailSemproPage> {
   @override
   void initState() {
     super.initState();
-    _getDetailSempro();
+    _getDetailSkripsi();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Sempro'),
+        title: Text('Detail Skripsi'),
         backgroundColor: primaryBlue,
       ),
       body: SingleChildScrollView(
@@ -98,7 +98,7 @@ class _DetailSemproPageState extends State<DetailSemproPage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text('SEMPRO')
+                          Text('SKRIPSI')
                         ],
                       ),
                     ),
@@ -115,17 +115,17 @@ class _DetailSemproPageState extends State<DetailSemproPage> {
                                 color: primaryBlue,
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              _semproData!['mahasiswa']['nim'],
+                              _skripsiData!['mahasiswa']['nim'],
                               style:
                                   TextStyle(fontSize: 10, color: Colors.white),
                             )),
-                        Text(_semproData!['mahasiswa']['prodi'])
+                        Text(_skripsiData!['mahasiswa']['prodi'])
                       ],
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    Text(_semproData!['mahasiswa']['nama']),
+                    Text(_skripsiData!['mahasiswa']['nama']),
                     SizedBox(
                       height: 20,
                     ),
@@ -136,107 +136,51 @@ class _DetailSemproPageState extends State<DetailSemproPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        _semproData!['status_judul_1'] == 1
-                            ? Icon(
-                                Icons.check,
-                                color: Colors.green,
-                              )
-                            : Container(),
-                        _semproData!['status_judul_1'] == 1
-                            ? SizedBox(
-                                width: 10,
-                              )
-                            : Container(),
-                        TextWidget(
-                            title: 'Judul 1', content: _semproData!['judul_1'])
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        _semproData!['status_judul_2'] == 1
-                            ? Icon(
-                                Icons.check,
-                                color: Colors.green,
-                              )
-                            : Container(),
-                        _semproData!['status_judul_2'] == 1
-                            ? SizedBox(
-                                width: 10,
-                              )
-                            : Container(),
-                        TextWidget(
-                            title: 'Judul 2', content: _semproData!['judul_2'])
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        _semproData!['status_judul_3'] == 1
-                            ? Icon(
-                                Icons.check,
-                                color: Colors.green,
-                              )
-                            : Container(),
-                        _semproData!['status_judul_3'] == 1
-                            ? SizedBox(
-                                width: 10,
-                              )
-                            : Container(),
-                        TextWidget(
-                            title: 'Judul 3', content: _semproData!['judul_3'])
-                      ],
-                    ),
+                    TextWidget(title: 'Judul', content: _skripsiData!['judul']),
                     SizedBox(
                       height: 20,
                     ),
                     TextWidget(
                         title: 'Dosen Pembimbing 1',
-                        content: _semproData!['pembimbing_1']),
+                        content: _skripsiData!['pembimbing_1']),
                     SizedBox(
                       height: 20,
                     ),
                     TextWidget(
                         title: 'Dosen Pembimbing 2',
-                        content: _semproData!['pembimbing_2']),
+                        content: _skripsiData!['pembimbing_2']),
                     SizedBox(
                       height: 20,
                     ),
                     TextWidget(
                         title: 'Waktu Pelaksanaan',
-                        content: _semproData!['waktu'] == null
+                        content: _skripsiData!['waktu'] == null
                             ? 'Waktu belum ada'
-                            : _semproData!['waktu'].toString()),
+                            : _skripsiData!['waktu'].toString()),
                     SizedBox(
                       height: 20,
                     ),
                     TextWidget(
                         title: 'Temapt Pelaksanaan',
-                        content: _semproData!['tempat'] == null
+                        content: _skripsiData!['tempat'] == null
                             ? 'Tempat belum ada'
-                            : _semproData!['tempat'].toString()),
+                            : _skripsiData!['tempat'].toString()),
                     SizedBox(
                       height: 20,
                     ),
                     TextWidget(
                         title: 'Nama Ruang',
-                        content: _semproData!['nama_ruang'] == null
+                        content: _skripsiData!['nama_ruang'] == null
                             ? 'Nama ruang belum ada'
-                            : _semproData!['nama_ruang'].toString()),
+                            : _skripsiData!['nama_ruang'].toString()),
                     SizedBox(
                       height: 20,
                     ),
                     TextWidget(
                         title: 'Link Zoom',
-                        content: _semproData!['link'] == null
+                        content: _skripsiData!['link'] == null
                             ? 'Link Zoom belum ada'
-                            : _semproData!['link'].toString()),
+                            : _skripsiData!['link'].toString()),
                     SizedBox(
                       height: 20,
                     ),

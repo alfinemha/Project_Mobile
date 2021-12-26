@@ -1,22 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jadwalsidang/constant/global_constant.dart';
-import 'package:jadwalsidang/pages/admin_login_page.dart';
-import 'package:jadwalsidang/pages/main_page.dart';
-import 'package:jadwalsidang/pages/register_page.dart';
-import 'package:jadwalsidang/state/mahasiswa_state.dart';
+import 'package:jadwalsidang/pages/admin_home_page.dart';
+import 'package:jadwalsidang/pages/login_page.dart';
+import 'package:jadwalsidang/state/admin_state.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
 import 'package:http/http.dart' as http;
 
-class LoginPage extends StatefulWidget {
+class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({Key? key}) : super(key: key);
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _AdminLoginPageState createState() => _AdminLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginPageState extends State<AdminLoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -38,17 +40,17 @@ class _LoginPageState extends State<LoginPage> {
   void _checkAuth() {
     if (GlobalConstant.getToken() != '') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MainPage()));
+          context, MaterialPageRoute(builder: (context) => AdminHomePage()));
     }
   }
 
   Future _me() async {
-    var url = Uri.parse(GlobalConstant.baseUrl + '/mahasiswa/me');
+    var url = Uri.parse(GlobalConstant.baseUrl + '/admin/me');
     try {
       var response = await http.post(url,
           headers: {'Authorization': 'Bearer ' + GlobalConstant.getToken()});
       if (response.statusCode == 200) {
-        MahasiswaState.setMahasiswa(json.decode(response.body));
+        AdminState.setAdmin(json.decode(response.body));
       }
     } on SocketException {
       print('No connection internet');
@@ -60,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future _login() async {
-    var url = Uri.parse(GlobalConstant.baseUrl + '/mahasiswa/login');
+    var url = Uri.parse(GlobalConstant.baseUrl + '/admin/login');
     try {
       var response = await http.post(url, body: {
         'email': _emailController.text,
@@ -68,10 +70,10 @@ class _LoginPageState extends State<LoginPage> {
       });
       if (response.statusCode == 200) {
         BottomSheetFeedback.success(context, 'Selamat', 'Login berhasil');
-        GlobalConstant.setToken(json.decode(response.body)['access_token']);
+        GlobalConstant.setToken(json.decode(response.body)['token']);
         Future.delayed(const Duration(seconds: 2), () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MainPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AdminHomePage()));
         });
         _me();
       } else {
@@ -103,14 +105,14 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/img/student.png',
+                      'assets/img/logo.png',
                       width: 240,
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     Text(
-                      'LOGIN MAHASISWA',
+                      'LOGIN ADMIN',
                       style: heading2.copyWith(color: textBlack),
                     ),
                     SizedBox(
@@ -217,30 +219,6 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Belum punya akun ? ",
-                      style: regular16pt.copyWith(color: textGrey),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
-                      },
-                      child: Text(
-                        'Register',
-                        style: regular16pt.copyWith(color: primaryBlue),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
                       "Login sebagai ",
                       style: regular16pt.copyWith(color: textGrey),
                     ),
@@ -249,10 +227,10 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdminLoginPage()));
+                                builder: (context) => LoginPage()));
                       },
                       child: Text(
-                        'Admin',
+                        'Mahasiswa',
                         style: regular16pt.copyWith(color: primaryBlue),
                       ),
                     ),

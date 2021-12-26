@@ -7,17 +7,18 @@ import 'package:jadwalsidang/constant/global_constant.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
+import 'package:jadwalsidang/widgets/bottom_sheet_sempro.dart';
 import 'package:jadwalsidang/widgets/text_widget.dart';
 
-class DetailSemproPage extends StatefulWidget {
+class AdminDetailSemproPage extends StatefulWidget {
   final String id;
-  const DetailSemproPage({Key? key, required this.id}) : super(key: key);
+  const AdminDetailSemproPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  _DetailSemproPageState createState() => _DetailSemproPageState();
+  _AdminDetailSemproPageState createState() => _AdminDetailSemproPageState();
 }
 
-class _DetailSemproPageState extends State<DetailSemproPage> {
+class _AdminDetailSemproPageState extends State<AdminDetailSemproPage> {
   Map? _semproData;
   bool _loading = false;
 
@@ -26,7 +27,7 @@ class _DetailSemproPageState extends State<DetailSemproPage> {
       _loading = true;
     });
     var url = Uri.parse(
-        GlobalConstant.baseUrl + '/mahasiswa/pengajuan/sempro/' + widget.id);
+        GlobalConstant.baseUrl + '/admin/pengajuan/sempro/' + widget.id);
     try {
       var response = await http.get(url,
           headers: {'Authorization': 'Bearer ' + GlobalConstant.getToken()});
@@ -73,6 +74,14 @@ class _DetailSemproPageState extends State<DetailSemproPage> {
       appBar: AppBar(
         title: Text('Detail Sempro'),
         backgroundColor: primaryBlue,
+        actions: [
+          IconButton(
+              onPressed: () {
+                BottomSheetSempro.update(
+                    context, _semproData!['id'].toString());
+              },
+              icon: Icon(Icons.edit))
+        ],
       ),
       body: SingleChildScrollView(
         child: _loading

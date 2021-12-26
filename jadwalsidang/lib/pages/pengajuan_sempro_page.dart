@@ -60,7 +60,7 @@ class _PengajuanSemproPageState extends State<PengajuanSemproPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryBlue,
-          title: Text('Pengajuan Sempro'),
+          title: Text('Pengajuan Seminar Proposal'),
           // automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(

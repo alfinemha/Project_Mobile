@@ -12,8 +12,8 @@ import 'package:jadwalsidang/theme.dart';
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class BottomSheetSempro {
-  const BottomSheetSempro(BuildContext context);
+class BottomSheetSkripsi {
+  const BottomSheetSkripsi(BuildContext context);
 
   static Future update(BuildContext context, String id) async {
     TextEditingController _waktu = TextEditingController();
@@ -21,12 +21,11 @@ class BottomSheetSempro {
     TextEditingController _namaRuang = TextEditingController();
     TextEditingController _link = TextEditingController();
 
-    int? _radioValue = 0;
     int? _radioValue1 = 0;
 
     Future _update(String id) async {
       var url =
-          Uri.parse(GlobalConstant.baseUrl + '/admin/pengajuan/sempro/' + id);
+          Uri.parse(GlobalConstant.baseUrl + '/admin/pengajuan/skripsi/' + id);
       try {
         var response = await http.put(url, headers: {
           'Authorization': 'Bearer ' + GlobalConstant.getToken()
@@ -37,29 +36,14 @@ class BottomSheetSempro {
           'link': _link.text,
           'status': _radioValue1 != null
               ? _radioValue1 == 1
-                  ? 'Sudah Disetujui'
-                  : 'Belum Disetujui'
-              : 'Belum Disetujui',
-          'status_judul_1': _radioValue != null
-              ? _radioValue == 0
-                  ? 1.toString()
-                  : 0.toString()
-              : 0.toString(),
-          'status_judul_2': _radioValue != null
-              ? _radioValue == 1
-                  ? 1.toString()
-                  : 0.toString()
-              : 0.toString(),
-          'status_judul_3': _radioValue != null
-              ? _radioValue == 2
-                  ? 1.toString()
-                  : 0.toString()
-              : 0.toString(),
+                  ? 'Sudah Diverifikasi'
+                  : 'Belum Diverifikasi'
+              : 'Belum Diverifikasi',
         });
 
         if (response.statusCode == 200) {
           BottomSheetFeedback.success(
-              context, 'Selamat', 'Verifikasi sempro berhasil');
+              context, 'Selamat', 'Verifikasi skripsi berhasil');
           Future.delayed(const Duration(seconds: 2), () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AdminTabPage()));
@@ -105,7 +89,7 @@ class BottomSheetSempro {
                       height: 10,
                     ),
                     Text(
-                      "Verifikasi Sempro",
+                      "Verifikasi Skripsi",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
@@ -224,79 +208,6 @@ class BottomSheetSempro {
                     ),
                     SizedBox(
                       height: 28,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Radio(
-                          value: 0,
-                          groupValue: _radioValue,
-                          onChanged: (value) {
-                            mystate(() {
-                              _radioValue = value as int?;
-
-                              switch (_radioValue) {
-                                case 0:
-                                  break;
-                                case 1:
-                                  break;
-                                case 2:
-                                  break;
-                              }
-                            });
-                          },
-                        ),
-                        Text(
-                          'Judul 1',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                        Radio(
-                          value: 1,
-                          groupValue: _radioValue,
-                          onChanged: (value) {
-                            mystate(() {
-                              _radioValue = value as int?;
-
-                              switch (_radioValue) {
-                                case 0:
-                                  break;
-                                case 1:
-                                  break;
-                                case 2:
-                                  break;
-                              }
-                            });
-                          },
-                        ),
-                        Text(
-                          'Judul 2',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        Radio(
-                          value: 2,
-                          groupValue: _radioValue,
-                          onChanged: (value) {
-                            mystate(() {
-                              _radioValue = value as int?;
-
-                              switch (_radioValue) {
-                                case 0:
-                                  break;
-                                case 1:
-                                  break;
-                                case 2:
-                                  break;
-                              }
-                            });
-                          },
-                        ),
-                        Text(
-                          'Judul 3',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

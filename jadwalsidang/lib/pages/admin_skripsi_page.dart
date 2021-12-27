@@ -126,7 +126,7 @@ class _AdminSkripsiWidgetState extends State<AdminSkripsiWidget> {
                                         decoration: BoxDecoration(
                                             color: _skrispiData[index]
                                                         ['status'] ==
-                                                    'Sudah Disetujui'
+                                                    'Sudah Diverifikasi'
                                                 ? Colors.green
                                                 : Colors.red,
                                             borderRadius:

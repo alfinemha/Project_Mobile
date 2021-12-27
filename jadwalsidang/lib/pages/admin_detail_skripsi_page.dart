@@ -7,6 +7,7 @@ import 'package:jadwalsidang/constant/global_constant.dart';
 import 'package:jadwalsidang/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:jadwalsidang/widgets/bottom_sheet_feedback.dart';
+import 'package:jadwalsidang/widgets/bottom_sheet_skripsi.dart';
 import 'package:jadwalsidang/widgets/text_widget.dart';
 
 class AdminDetailSkripsiPage extends StatefulWidget {
@@ -72,6 +73,14 @@ class _AdminDetailSkripsiPageState extends State<AdminDetailSkripsiPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail Skripsi'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                BottomSheetSkripsi.update(
+                    context, _skripsiData!['id'].toString());
+              },
+              icon: Icon(Icons.edit))
+        ],
         backgroundColor: primaryBlue,
       ),
       body: SingleChildScrollView(

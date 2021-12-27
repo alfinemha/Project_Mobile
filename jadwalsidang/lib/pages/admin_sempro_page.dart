@@ -125,7 +125,7 @@ class _AdminSemproWidgetState extends State<AdminSemproWidget> {
                                         decoration: BoxDecoration(
                                             color: _semproData[index]
                                                         ['status'] ==
-                                                    'Sudah Diverifikasi'
+                                                    'Sudah Disetujui'
                                                 ? Colors.green
                                                 : Colors.red,
                                             borderRadius:

@@ -66,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
         'email': _emailController.text,
         'password': _passwordController.text,
       });
+      print(response.body);
       if (response.statusCode == 200) {
         BottomSheetFeedback.success(context, 'Selamat', 'Login berhasil');
         GlobalConstant.setToken(json.decode(response.body)['access_token']);

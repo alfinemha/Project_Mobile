@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class GlobalConstant {
   static const _storage = FlutterSecureStorage();
 
-  static const baseUrl = 'http://192.168.1.115:8000/api';
+  static const baseUrl = 'http://152.67.96.27:8099/api';
   static String token = '';
   // static String rule = '';
 
